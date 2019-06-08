@@ -1,0 +1,69 @@
+#Layer_1 {
+    width: 100%;
+    height: calc(100vh - 5px);
+}
+#preBookingModal .modal-content {
+    background-color: #F7F7F7;
+    border-radius: 20px;
+    border: none;
+}
+
+#preBookingModal table tr th {
+    font-weight: normal;
+}
+#preBookingModal table tr th:nth-child(1) {
+    color: gray;
+    min-width: 130px;
+}
+#preBookingModal .time-block .row div {
+    padding: 0 2px;
+}
+
+#preBookingModal .time-block .time-container, #preBookingModal .time-block .book-container {
+    width: 100%;
+    height: 70px;
+    padding: 0;
+    margin: 15px auto;
+    position: relative;
+    border: 5px solid #FFFFFF;
+    border-radius: 10px;
+    background-color: #ECEAE9;
+    text-align: center;
+}
+#preBookingModal .time-block .time-container {
+    max-width: 70px;
+}
+
+#preBookingModal .time-block .book-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.text-brown {
+    color: #822031;
+}
+
+.col-1-8 {
+    flex: 0 0 12.5%;
+    width: 12.5%;
+}
+
+.col-4-8 {
+    flex: 0 0 50%;
+    width: 50%;
+}
+
+@media screen and (max-width: 991px) {
+    .col-1-8 {
+        flex: 0 0 25%;
+        width: 25%;
+    }
+
+    .col-4-8 {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+}
