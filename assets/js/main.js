@@ -1,10 +1,30 @@
 window.onload = () => {
     var beforePan = function (oldPan, newPan) {
-        var sizes = this.getSizes(),
-            leftLimit = -((sizes.viewBox.x + sizes.viewBox.width) * sizes.realZoom) / 2,
-            rightLimit = sizes.width / 2 - (sizes.viewBox.x * sizes.realZoom),
-            topLimit = -((sizes.viewBox.y + sizes.viewBox.height) * sizes.realZoom) / 2,
-            bottomLimit = sizes.height / 2 - (sizes.viewBox.y * sizes.realZoom);
+        var sizes = this.getSizes();
+
+        var svgWidth = sizes.viewBox.width * sizes.realZoom;
+        var svgHeight = sizes.viewBox.height * sizes.realZoom;
+
+        var leftLimit;
+        var rightLimit;
+        var topLimit;
+        var bottomLimit;
+
+        if (svgWidth < sizes.width) {
+            leftLimit = 0;
+            rightLimit = sizes.width - svgWidth;
+        } else {
+            leftLimit = sizes.width - svgWidth;
+            rightLimit = 0;
+        }
+
+        if (svgHeight < sizes.height) {
+            topLimit = 0;
+            bottomLimit = sizes.height - svgHeight;
+        } else {
+            topLimit = sizes.height - svgHeight;
+            bottomLimit = 0;
+        }
 
         var customPan = {};
         customPan.x = Math.max(leftLimit, Math.min(rightLimit, newPan.x));
@@ -15,11 +35,11 @@ window.onload = () => {
 
     var setScale = (el, newZoom) => {
         let $el = $(el);
-        let scale = 1 / newZoom;
-        let circle = $(el).find('circle');
-        let x = parseInt(circle.attr('cx'));
-        let y = parseInt(circle.attr('cy'));
-        let r = parseInt(circle.attr('r'));
+        let scale = Math.min(devicePixelRatio, 2) / newZoom;
+        let $circle = $(el).find('circle, ellipse');
+        let x = parseFloat($circle.attr('cx'));
+        let y = parseFloat($circle.attr('cy'));
+        let r = parseFloat($circle.attr('r')) || parseFloat($circle.attr('rx')) / 2;
         let transX = x + r;
         let transY = y + r;
 
@@ -29,7 +49,7 @@ window.onload = () => {
     var beforeZoom = function (oldZoom, newZoom) {
         $('#Layer_1 .st24').parent().parent().map((i, el) => {
             setScale(el, newZoom)
-        })
+        });
     };
 
     var eventsHandler = {
