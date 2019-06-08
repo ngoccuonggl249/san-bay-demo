@@ -35,7 +35,7 @@ window.onload = () => {
 
     var setScale = (el, newZoom) => {
         let $el = $(el);
-        let scale = Math.min(devicePixelRatio, 2) / newZoom;
+        let scale = Math.min(devicePixelRatio, 2) / newZoom; //Fix icon size in mobile
         let $circle = $(el).find('circle, ellipse');
         let x = parseFloat($circle.attr('cx'));
         let y = parseFloat($circle.attr('cy'));
@@ -51,6 +51,11 @@ window.onload = () => {
             setScale(el, newZoom)
         });
     };
+
+    // Set icon size when init
+    $('#Layer_1 .st24').parent().parent().map((i, el) => {
+        setScale(el, 1)
+    });
 
     var eventsHandler = {
         haltEventListeners: ['touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel']
