@@ -67,3 +67,12 @@
         width: 100%;
     }
 }
+
+#Marker_1 {
+    overflow: visible;
+}
+
+.marker {
+    stroke: transparent;
+    stroke-width: 76px;
+}
