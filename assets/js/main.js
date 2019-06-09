@@ -33,29 +33,34 @@ window.onload = () => {
         return customPan
     };
 
-    var setScale = (el, newZoom) => {
-        let $el = $(el);
-        let scale = Math.min(devicePixelRatio, 2) / newZoom; //Fix icon size in mobile
-        let $circle = $(el).find('circle, ellipse');
-        let x = parseFloat($circle.attr('cx'));
-        let y = parseFloat($circle.attr('cy'));
-        let r = parseFloat($circle.attr('r')) || parseFloat($circle.attr('rx')) / 2;
-        let transX = x + r;
-        let transY = y + r;
+    var setScale = function ($el, newZoom) {
+        $el.map(function (i, el) {
+            if (el.getBBox) {
+                let bBox = el.getBBox();
+                let $el = $(el);
+                let scale = Math.min(devicePixelRatio, 2) / newZoom; //Fix icon size in mobile
+                let x = bBox.x;
+                let y = bBox.y;
+                let r = bBox.width/2;
+                let transX = x + r;
+                let transY = y + r;
 
-        $el.attr('transform', `translate(${transX} ${transY}) scale(${scale} ${scale}) translate(-${transX} -${transY})`);
+                if (isNaN(transX)) {
+                    debugger
+                }
+                $el.attr('transform', `translate(${transX} ${transY}) scale(${scale} ${scale}) translate(-${transX} -${transY})`);
+            }
+        })
     };
 
     var beforeZoom = function (oldZoom, newZoom) {
-        $('#Layer_1 .st24').parent().parent().map((i, el) => {
-            setScale(el, newZoom)
-        });
+        setScale($('#Layer_1 .st24').parent().parent(), newZoom);
+        setScale($('.marker'), newZoom);
     };
 
     // Set icon size when init
-    $('#Layer_1 .st24').parent().parent().map((i, el) => {
-        setScale(el, 1)
-    });
+    setScale($('#Layer_1 .st24').parent().parent(), 1);
+    setScale($('.marker'), 1);
 
     var eventsHandler = {
         haltEventListeners: ['touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel']
@@ -127,10 +132,7 @@ window.onload = () => {
         customEventsHandler: eventsHandler
     });
 
-    $('.st0').click(() => {
+    $('.marker').click(() => {
         $('#preBookingModal').modal('show');
     });
-    $('.st24').click(() => {
-        $('#preBookingModal').modal('show');
-    })
 };
