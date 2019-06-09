@@ -134,7 +134,7 @@ window.onload = () => {
 
    if (innerWidth < innerHeight) {
         map.zoom(10);
-        map.panBy({x: -90, y: innerHeight * 0.75});
+        map.panBy({x: -90, y: innerHeight * 0.85});
     }
 
     $('.marker').click(() => {
