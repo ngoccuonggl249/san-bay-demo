@@ -131,8 +131,8 @@ window.onload = () => {
         beforeZoom: beforeZoom,
         customEventsHandler: eventsHandler
     });
-    var mapSize = map.getSizes();
-    if (innerWidth < innerHeight) {
+
+   if (innerWidth < innerHeight) {
         map.zoom(10);
         map.panBy({x: -90, y: innerHeight * 0.75});
     }
