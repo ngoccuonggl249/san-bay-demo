@@ -38,10 +38,10 @@ window.onload = () => {
             if (el.getBBox) {
                 let bBox = el.getBBox();
                 let $el = $(el);
-                let scale = Math.min(devicePixelRatio, 2) / newZoom; //Fix icon size in mobile
+                let scale = devicePixelRatio / newZoom; //Fix icon size in mobile
                 let x = bBox.x;
                 let y = bBox.y;
-                let r = bBox.width/2;
+                let r = bBox.width / 2;
                 let transX = x + r;
                 let transY = y + r;
 
@@ -120,7 +120,7 @@ window.onload = () => {
         }
     };
 
-    svgPanZoom(document.querySelector('#Layer_1'), {
+    var map = svgPanZoom(document.querySelector('#Layer_1'), {
         zoomEnabled: true,
         controlIconsEnabled: false,
         zoomScaleSensitivity: 0.4,
@@ -131,6 +131,11 @@ window.onload = () => {
         beforeZoom: beforeZoom,
         customEventsHandler: eventsHandler
     });
+    var mapSize = map.getSizes();
+    if (innerWidth < innerHeight) {
+        map.zoom(10);
+        map.panBy({x: -90, y: innerHeight * 0.75});
+    }
 
     $('.marker').click(() => {
         $('#preBookingModal').modal('show');
